@@ -1,20 +1,16 @@
 class Solution {
     public int reverse(int x) {
         int res = 0;
-        while (x != 0) {
-            int digit = x % 10;
-            x /= 10;
-            
-            // Check for overflow/underflow before updating res
-            if (res > Integer.MAX_VALUE / 10 || (res == Integer.MAX_VALUE / 10 && digit > 7)) {
-                return 0; // Overflow
-            }
-            if (res < Integer.MIN_VALUE / 10 || (res == Integer.MIN_VALUE / 10 && digit < -8)) {
-                return 0; // Underflow
-            }
-            
-            res = res * 10 + digit;
+        boolean isNegative = x < 0;
+        String strX = String.valueOf(Math.abs(x));
+        StringBuilder sb = new StringBuilder(strX).reverse();
+        
+        try {
+            res = Integer.parseInt(sb.toString());
+        } catch (NumberFormatException e) {
+            return 0;
         }
-        return res;
+        
+        return isNegative ? -res : res;       
     }
 }
